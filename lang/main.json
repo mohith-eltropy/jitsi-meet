@@ -305,6 +305,9 @@
         "contactSupport": "Contact support",
         "copied": "Copied",
         "copy": "Copy",
+        "demoteParticipantButton": "Switch",
+        "demoteParticipantTitle": "Switch to visitor?",
+        "demoteParticipantDialog": "Are you sure you want to switch this participant to visitor?",
         "dismiss": "Dismiss",
         "displayNameRequired": "Hi! What’s your name?",
         "done": "Done",
@@ -1189,6 +1192,7 @@
             "closeMoreActions": "Close more actions menu",
             "closeParticipantsPane": "Close participants pane",
             "collapse": "Collapse",
+            "demote": "Switch to visitor",
             "document": "Toggle shared document",
             "documentClose": "Close shared document",
             "documentOpen": "Open shared document",
@@ -1420,6 +1424,7 @@
     },
     "videothumbnail": {
         "connectionInfo": "Connection Info",
+        "demote": "Switch to visitor",
         "domute": "Mute",
         "domuteOthers": "Mute everyone else",
         "domuteVideo": "Disable camera",
@@ -1475,7 +1480,8 @@
         "labelTooltip": "Number of visitors: {{count}}",
         "notification": {
             "description": "To participate raise your hand",
-            "title": "You are a visitor in the meeting"
+            "title": "You are a visitor in the meeting",
+            "demoteDescription": "Sent here by {{actor}}, raise your hand to participate"
         }
     },
     "volumeSlider": "Volume slider",
