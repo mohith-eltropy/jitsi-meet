@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import {View} from 'react-native';
 
 import { IReduxState, IStore } from '../../app/types';
 import { JitsiTrackEvents } from '../../base/lib-jitsi-meet';
@@ -221,15 +222,18 @@ class LargeVideo extends PureComponent<IProps, IState> {
         } = this.props;
 
         return (
-            <ParticipantView
-                avatarSize = { avatarSize }
-                disableVideo = { _disableVideo }
-                onPress = { onClick }
-                participantId = { _participantId }
-                testHintId = 'org.jitsi.meet.LargeVideo'
-                useConnectivityInfoLabel = { useConnectivityInfoLabel }
-                zOrder = { 0 }
-                zoomEnabled = { true } />
+            <View style={{flex: 1}}>
+                <ParticipantView
+                    avatarSize = { 100 }
+                    disableVideo = { _disableVideo }
+                    onPress = { onClick }
+                    participantId = { _participantId }
+                    testHintId = 'org.jitsi.meet.LargeVideo'
+                    useConnectivityInfoLabel = { useConnectivityInfoLabel }
+                    zOrder = { 0 }
+                    zoomEnabled = { true } />
+            </View>
+
         );
     }
 }

@@ -1,5 +1,5 @@
-import { IconMic, IconMicSlash } from '../../icons/svg';
-
+import {IconArrowBack, IconMic, IconMicSlash, IconArrowUp} from '../../icons/svg';
+import {NativeAudioMute} from '../../icons/png';
 import AbstractButton, { IProps } from './AbstractButton';
 
 /**

@@ -148,12 +148,17 @@ public class MainActivity extends JitsiMeetActivity {
 
     private void setJitsiMeetConferenceDefaultOptions() {
         // Set default options
+        JitsiMeetConferenceOptions.Builder builder = new JitsiMeetConferenceOptions.Builder();
+        try {
+            builder.setServerURL(new URL("https://jscmeet.financialtown.com/sustainabledebutsencounterferociously"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        builder.setFeatureFlag("welcomepage.enabled", true);
+        builder.setFeatureFlag("resolution", 360);
+        builder.setFeatureFlag("server-url-change.enabled", !configurationByRestrictions);
         JitsiMeetConferenceOptions defaultOptions
-            = new JitsiMeetConferenceOptions.Builder()
-            .setServerURL(buildURL(defaultURL))
-            .setFeatureFlag("welcomepage.enabled", true)
-            .setFeatureFlag("resolution", 360)
-            .setFeatureFlag("server-url-change.enabled", !configurationByRestrictions)
+            = builder
             .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
     }

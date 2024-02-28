@@ -56,6 +56,9 @@ import LonelyMeetingExperience from './LonelyMeetingExperience';
 import TitleBar from './TitleBar';
 import { EXPANDED_LABEL_TIMEOUT } from './constants';
 import styles from './styles';
+import {chatScreenOptions} from "../../../mobile/navigation/screenOptions";
+import Chat from "../../../chat/components/native/Chat";
+import { createStackNavigator } from '@react-navigation/stack';
 
 /**
  * The type of the React {@code Component} props of {@link Conference}.
@@ -184,7 +187,8 @@ class Conference extends AbstractConference<IProps, State> {
         super(props);
 
         this.state = {
-            visibleExpandedLabel: undefined
+            visibleExpandedLabel: undefined,
+            isLayoutExpanded: false
         };
 
         this._expandedLabelTimeout = React.createRef<number>();
@@ -386,95 +390,38 @@ class Conference extends AbstractConference<IProps, State> {
 
         }
 
+        const handleExpandedIconClick = () => {
+            this.setState({
+                isLayoutExpanded: !this.state.isLayoutExpanded
+            })
+        }
+
         return (
             <>
-                {/*
-                  * The LargeVideo is the lowermost stacking layer.
-                  */
-                    _shouldDisplayTileView
-                        ? <TileView onClick = { this._onClick } />
-                        : <LargeVideo onClick = { this._onClick } />
-                }
+                <View style={this.state.isLayoutExpanded ? {height: 150} : {height: 400}}>
+                    <View>
+                        <Toolbox isLayoutExpanded={this.state.isLayoutExpanded} handleExpandedIconClick={handleExpandedIconClick} />
+                    </View>
+                    {!this.state.isLayoutExpanded &&
+                    <>
+                        <LargeVideo onClick={this._onClick}/>
+                        <View
+                            pointerEvents = 'box-none'
+                            style = {styles.toolboxAndFilmstripContainer as ViewStyle}>
 
-                {/*
-                  * If there is a ringing call, show the callee's info.
-                  */
-                    <CalleeInfoContainer />
-                }
+                            <Captions onPress = {this._onClick} />
+                                <>
+                                    <Filmstrip/>
+                                    {/*{ this._renderNotificationsContainer() }*/}
 
-                {/*
-                  * The activity/loading indicator goes above everything, except
-                  * the toolbox/toolbars and the dialogs.
-                  */
-                    _connecting
-                        && <TintedView>
-                            <LoadingIndicator />
-                        </TintedView>
-                }
-
-                <View
-                    pointerEvents = 'box-none'
-                    style = { styles.toolboxAndFilmstripContainer as ViewStyle }>
-
-                    <Captions onPress = { this._onClick } />
-
-                    {
-                        _shouldDisplayTileView
-                        || <Container style = { styles.displayNameContainer }>
-                            <DisplayNameLabel
-                                participantId = { _largeVideoParticipantId } />
-                        </Container>
-                    }
-
-                    { !_shouldDisplayTileView && <LonelyMeetingExperience /> }
-
-                    {
-                        _shouldDisplayTileView
-                        || <>
-                            <Filmstrip />
-                            { this._renderNotificationsContainer() }
-                            <Toolbox />
-                        </>
+                                </>
+                        </View>
+                    </>
                     }
                 </View>
-
-                <SafeAreaView
-                    pointerEvents = 'box-none'
-                    style = {
-                        (_toolboxVisible
-                            ? styles.titleBarSafeViewColor
-                            : styles.titleBarSafeViewTransparent) as ViewStyle }>
-                    <TitleBar _createOnPress = { this._createOnPress } />
-                </SafeAreaView>
-                <SafeAreaView
-                    pointerEvents = 'box-none'
-                    style = {
-                        (_toolboxVisible
-                            ? [ styles.titleBarSafeViewTransparent, { top: this.props.insets.top + 50 } ]
-                            : styles.titleBarSafeViewTransparent) as ViewStyle
-                    }>
-                    <View
-                        pointerEvents = 'box-none'
-                        style = { styles.expandedLabelWrapper }>
-                        <ExpandedLabelPopup visibleExpandedLabel = { this.state.visibleExpandedLabel } />
-                    </View>
-                    <View
-                        pointerEvents = 'box-none'
-                        style = { alwaysOnTitleBarStyles as ViewStyle }>
-                        {/* eslint-disable-next-line react/jsx-no-bind */}
-                        <AlwaysOnLabels createOnPress = { this._createOnPress } />
-                    </View>
-                </SafeAreaView>
-
-                <TestConnectionInfo />
-
-                {
-                    _shouldDisplayTileView
-                    && <>
-                        { this._renderNotificationsContainer() }
-                        <Toolbox />
-                    </>
-                }
+                <View style={{flex: 1}}>
+                    <Chat />
+                </View>
             </>
         );
     }

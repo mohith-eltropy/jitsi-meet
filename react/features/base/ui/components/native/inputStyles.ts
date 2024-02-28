@@ -26,11 +26,11 @@ export default {
 
     input: {
         ...BaseTheme.typography.bodyShortRegularLarge,
-        backgroundColor: BaseTheme.palette.ui03,
-        borderColor: BaseTheme.palette.ui03,
+        backgroundColor: BaseTheme.palette.ui10,
+        borderColor: BaseTheme.palette.ui09,
         borderRadius: BaseTheme.shape.borderRadius,
         borderWidth: 2,
-        color: BaseTheme.palette.text01,
+        color: BaseTheme.palette.text04,
         paddingHorizontal: BaseTheme.spacing[3],
         height: BaseTheme.spacing[7],
         lineHeight: 20

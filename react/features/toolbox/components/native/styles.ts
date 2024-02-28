@@ -39,6 +39,11 @@ const whiteToolbarButtonIcon = {
     color: BaseTheme.palette.icon01
 };
 
+const blackToolbarButtonIcon = {
+    ...toolbarButtonIcon,
+    color: BaseTheme.palette.icon04
+}
+
 /**
  * The style of reaction buttons.
  */
@@ -86,11 +91,11 @@ const styles = {
      */
     toolbox: {
         alignItems: 'center',
-        backgroundColor: BaseTheme.palette.uiBackground,
+        backgroundColor: BaseTheme.palette.ui10,
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
 
     /**
@@ -121,7 +126,7 @@ ColorSchemeRegistry.register('Toolbox', {
     },
 
     buttonStylesBorderless: {
-        iconStyle: whiteToolbarButtonIcon,
+        iconStyle: blackToolbarButtonIcon,
         style: {
             ...toolbarButton,
             backgroundColor: 'transparent'
@@ -196,7 +201,7 @@ ColorSchemeRegistry.register('Toolbox', {
      * Styles for toggled buttons in the toolbar.
      */
     toggledButtonStyles: {
-        iconStyle: whiteToolbarButtonIcon,
+        iconStyle: blackToolbarButtonIcon,
         style: {
             ...toolbarButton
         },

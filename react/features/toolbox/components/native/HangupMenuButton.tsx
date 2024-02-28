@@ -7,6 +7,7 @@ import IconButton from '../../../base/ui/components/native/IconButton';
 import { BUTTON_TYPES } from '../../../base/ui/constants.native';
 
 import HangupMenu from './HangupMenu';
+import Button from "../../../base/ui/components/native/Button";
 
 /**
  * Button for showing the hangup menu.
@@ -21,11 +22,12 @@ const HangupMenuButton = (): JSX.Element => {
     }, [ dispatch ]);
 
     return (
-        <IconButton
+        <Button
             accessibilityLabel = 'toolbar.accessibilityLabel.hangup'
-            onPress = { onSelect }
-            src = { IconHangup }
-            type = { BUTTON_TYPES.PRIMARY } />
+            onClick = { onSelect }
+            labelKey = "End call"
+            color = 'red'
+        />
     );
 };
 

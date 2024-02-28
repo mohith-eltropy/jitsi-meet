@@ -12,6 +12,7 @@ import Input from '../../../base/ui/components/native/Input';
 import { BUTTON_TYPES } from '../../../base/ui/constants.native';
 
 import styles from './styles';
+import Button from "../../../base/ui/components/native/Button";
 
 
 interface IProps extends WithTranslation {
@@ -96,14 +97,14 @@ class ChatInputBar extends Component<IProps, IState> {
                     onChange = { this._onChangeText }
                     onFocus = { this._onFocused(true) }
                     onSubmitEditing = { this._onSubmit }
-                    placeholder = { this.props.t('chat.fieldPlaceHolder') }
+                    placeholder = { 'Type your message here...' }
                     returnKeyType = 'send'
                     value = { this.state.message } />
-                <IconButton
-                    disabled = { !this.state.message }
+                <Button
                     onPress = { this._onSubmit }
-                    src = { IconSend }
-                    type = { BUTTON_TYPES.PRIMARY } />
+                    labelKey={"Send"}
+                    type = { BUTTON_TYPES.PRIMARY }
+                />
             </View>
         );
     }

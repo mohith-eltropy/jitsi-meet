@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle } from 'react-native';
+import { View, ViewStyle, TouchableHighlight,Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 
@@ -21,6 +21,16 @@ import RaiseHandButton from './RaiseHandButton';
 import ScreenSharingButton from './ScreenSharingButton';
 import VideoMuteButton from './VideoMuteButton';
 import styles from './styles';
+import Button from "../../../base/ui/components/native/Button";
+import Icon from "../../../base/icons/components/Icon";
+import {
+    IconArrowDown,
+    IconArrowDownLarge,
+    IconArrowUp
+} from "../../../base/icons/svg";
+import BaseIndicator from "../../../base/react/components/native/BaseIndicator";
+import LargeVideo from "../../../large-video/components/LargeVideo.native";
+import BaseTheme from '../../../base/ui/components/BaseTheme.native';
 
 /**
  * The type of {@link Toolbox}'s React {@code Component} props.
@@ -65,7 +75,7 @@ interface IProps {
  * @returns {React$Element}.
  */
 function Toolbox(props: IProps) {
-    const { _endConferenceSupported, _shouldDisplayReactionsButtons, _styles, _visible, _iAmVisitor, _width } = props;
+    const { _endConferenceSupported, _shouldDisplayReactionsButtons, _styles, _visible, _iAmVisitor, _width, isLayoutExpanded, handleExpandedIconClick } = props;
 
     if (!_visible) {
         return null;
@@ -81,7 +91,11 @@ function Toolbox(props: IProps) {
             _styles.backgroundToggle
         ]
     };
-    const style = { ...styles.toolbox };
+    const heightOfToolbox = isLayoutExpanded ? 150 : 70;
+    const backgroundColor = isLayoutExpanded ? BaseTheme.palette.ui09 : BaseTheme.palette.ui10;
+    const toolboxPadding = isLayoutExpanded ? 0 : BaseTheme.spacing[2]
+    const style = { ...styles.toolbox, height: heightOfToolbox, backgroundColor: backgroundColor, paddingHorizontal: toolboxPadding };
+
 
     // we have only hangup and raisehand button in _iAmVisitor mode
     if (_iAmVisitor) {
@@ -90,48 +104,65 @@ function Toolbox(props: IProps) {
     }
 
     return (
-        <View
-            style = { styles.toolboxContainer as ViewStyle }>
-            <SafeAreaView
-                accessibilityRole = 'toolbar'
+        <View >
+            <View
+                // accessibilityRole = 'toolbar'
 
                 // @ts-ignore
-                edges = { [ bottomEdge && 'bottom' ].filter(Boolean) }
-                pointerEvents = 'box-none'
+                // edges = { [ bottomEdge && 'bottom' ].filter(Boolean) }
+                // pointerEvents = 'box-none'
                 style = { style as ViewStyle }>
-                {!_iAmVisitor && <AudioMuteButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
-                }
-                {!_iAmVisitor && <VideoMuteButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
-                }
-                {additionalButtons.has('chat')
-                    && <ChatButton
-                        styles = { buttonStylesBorderless }
-                        toggledStyles = { backgroundToggledStyle } />
-                }
-                {!_iAmVisitor && additionalButtons.has('screensharing')
-                    && <ScreenSharingButton styles = { buttonStylesBorderless } />}
-                {additionalButtons.has('raisehand') && (_shouldDisplayReactionsButtons
-                    ? <ReactionsMenuButton
-                        styles = { buttonStylesBorderless }
-                        toggledStyles = { backgroundToggledStyle } />
-                    : <RaiseHandButton
-                        styles = { buttonStylesBorderless }
-                        toggledStyles = { backgroundToggledStyle } />)}
-                {additionalButtons.has('tileview') && <TileViewButton styles = { buttonStylesBorderless } />}
-                {!_iAmVisitor && <OverflowMenuButton
-                    styles = { buttonStylesBorderless }
-                    toggledStyles = { toggledButtonStyles } />
-                }
-                { _endConferenceSupported
+                <View style={{flexDirection: 'row', alignSelf: 'stretch'}}>
+                    {isLayoutExpanded && !_iAmVisitor &&
+                        <View style={{height: 150, width: 150, backgroundColor: "#000"}}>
+                            <LargeVideo />
+                        </View>
+
+                    }
+                    <View style={{flexDirection: 'row',alignSelf: 'stretch', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto'}}>
+                        {!_iAmVisitor &&
+                            <View>
+                                <VideoMuteButton
+                                    styles = { buttonStylesBorderless }
+                                />
+                            </View>
+
+                        }
+                        {!_iAmVisitor && <AudioMuteButton
+                            styles = { buttonStylesBorderless }
+                            toggledStyles = { toggledButtonStyles } />
+                        }
+                        {!_iAmVisitor &&
+                        <TouchableHighlight onPress={()=>{handleExpandedIconClick()}}>
+                            <View style={{marginLeft: 16}}>
+                                {!isLayoutExpanded ?
+                                    <BaseIndicator
+                                        icon = { IconArrowDown }
+                                        iconStyle = {{
+                                            color: "#000"
+                                        }} />
+                                        :
+                                    <BaseIndicator
+                                        icon = { IconArrowUp }
+                                        iconStyle = {{
+                                            color: "#000"
+                                        }} />
+                                }
+
+                                {/*<Text>is Expanded</Text>*/}
+                            </View>
+                            </TouchableHighlight>
+                        }
+                    </View>
+                </View>
+
+                { !isLayoutExpanded && (_endConferenceSupported
                     ? <HangupMenuButton />
                     : <HangupButton
-                        styles = { hangupButtonStyles } />
+                        styles = { hangupButtonStyles }
+                    />)
                 }
-            </SafeAreaView>
+            </View>
         </View>
     );
 }
@@ -152,7 +183,7 @@ function _mapStateToProps(state: IReduxState) {
     return {
         _endConferenceSupported: Boolean(endConferenceSupported),
         _styles: ColorSchemeRegistry.get(state, 'Toolbox'),
-        _visible: isToolboxVisible(state),
+        _visible: true,
         _iAmVisitor: iAmVisitor(state),
         _width: state['features/base/responsive-ui'].clientWidth,
         _shouldDisplayReactionsButtons: shouldDisplayReactionsButtons(state)

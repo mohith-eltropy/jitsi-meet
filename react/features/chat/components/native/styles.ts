@@ -17,7 +17,8 @@ const recipientContainer = {
 const inputBar = {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    backgroundColor: BaseTheme.palette.ui09
 };
 
 /**
@@ -124,8 +125,9 @@ export default {
 
     inputBarNarrow: {
         ...inputBar,
-        height: 112,
-        marginHorizontal: BaseTheme.spacing[3]
+        height: 70,
+        paddingHorizontal: BaseTheme.spacing[2]
+        // marginHorizontal: BaseTheme.spacing[3]
     },
 
     inputBarWide: {
@@ -135,7 +137,7 @@ export default {
     },
 
     customInputContainer: {
-        width: '75%'
+        width: '77%'
     },
 
     messageBubble: {
@@ -192,7 +194,7 @@ export default {
     },
 
     chatContainer: {
-        backgroundColor: BaseTheme.palette.ui01,
+        backgroundColor: BaseTheme.palette.ui10,
         flex: 1
     },
 
